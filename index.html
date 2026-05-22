@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Salumeria</title>
+  <title>menù_del_giorno</title>
   <style>
     :root {
       --bg: #f7f1e8;
@@ -11,6 +11,8 @@
       --accent: #8b2e1e;
       --accent-2: #c89b5e;
       --card: #fffaf4;
+      --line: rgba(43, 33, 24, .15);
+      --selected: #fff2dd;
     }
     * { box-sizing: border-box; }
     body {
@@ -20,20 +22,48 @@
       color: var(--text);
       line-height: 1.6;
     }
-    header {
-      padding: 4rem 1.5rem;
-      text-align: center;
-      background: linear-gradient(rgba(43,33,24,.55), rgba(43,33,24,.55)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=80') center/cover;
-      color: white;
+    .menu-backdrop {
+      position: relative;
+      overflow: hidden;
+      padding: 1rem 0 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(200,155,94,.25), transparent 28%),
+        radial-gradient(circle at 82% 28%, rgba(139,46,30,.18), transparent 30%),
+        linear-gradient(135deg, #fffaf4 0%, #f7f1e8 62%, #ead8bd 100%);
     }
-    header h1 {
-      margin: 0;
-      font-size: 3rem;
+    .menu-backdrop::before {
+      content: "";
+      position: absolute;
+      inset: 1rem;
+      border: 1px solid rgba(139,46,30,.14);
+      border-radius: 24px;
+      pointer-events: none;
     }
-    header p {
-      max-width: 700px;
-      margin: 1rem auto 0;
-      font-size: 1.1rem;
+    .menu-backdrop > *:not(.floating-emoji) {
+      position: relative;
+      z-index: 2;
+    }
+    .floating-emoji {
+      position: absolute;
+      z-index: 3;
+      font-size: clamp(1.6rem, 4vw, 3.25rem);
+      opacity: .78;
+      filter: drop-shadow(0 8px 14px rgba(43,33,24,.16));
+      animation: floatEmoji 7s ease-in-out infinite;
+      transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+      transition: transform .12s ease-out;
+      user-select: none;
+      pointer-events: none;
+    }
+    .floating-emoji:nth-child(1) { left: 4%; top: 5%; animation-delay: 0s; }
+    .floating-emoji:nth-child(2) { left: 7%; top: 44%; animation-delay: -2s; }
+    .floating-emoji:nth-child(3) { right: 5%; top: 9%; animation-delay: -1s; }
+    .floating-emoji:nth-child(4) { right: 7%; top: 48%; animation-delay: -3.5s; }
+    .floating-emoji:nth-child(5) { left: 45%; top: 2%; animation-delay: -4.5s; }
+    .floating-emoji:nth-child(6) { right: 38%; top: 84%; animation-delay: -1.8s; }
+    @keyframes floatEmoji {
+      0%, 100% { margin-top: 0; rotate: -4deg; scale: 1; }
+      50% { margin-top: -18px; rotate: 6deg; scale: 1.08; }
     }
     .btn {
       display: inline-block;
@@ -44,7 +74,10 @@
       text-decoration: none;
       border-radius: 999px;
       font-weight: bold;
+      border: 0;
+      cursor: pointer;
     }
+    .btn:hover { background: #6f2116; }
     section {
       padding: 3rem 1.5rem;
       max-width: 1100px;
@@ -61,61 +94,395 @@
       border-radius: 16px;
       box-shadow: 0 8px 24px rgba(0,0,0,.08);
     }
+    .product-card {
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      border: 1px solid transparent;
+    }
+    .product-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(200,155,94,.28), transparent 34%);
+      opacity: 0;
+      transition: opacity .18s ease;
+      pointer-events: none;
+    }
+    .product-card:hover {
+      transform: perspective(700px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px);
+      box-shadow: 0 16px 34px rgba(43,33,24,.14);
+      border-color: rgba(200,155,94,.5);
+    }
+    .product-card:hover::before {
+      opacity: 1;
+    }
+    .product-card h3,
+    .product-card p {
+      position: relative;
+      z-index: 1;
+    }
+    .philosophy-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 390px);
+      align-items: center;
+      gap: 2rem;
+    }
+    .philosophy-copy p {
+      margin-bottom: 0;
+    }
+    .floating-photo {
+      width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 18px 38px rgba(43,33,24,.18);
+      animation: floatPhoto 8s ease-in-out infinite;
+    }
+    @keyframes floatPhoto {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(-1.2deg); }
+      50% { transform: translate3d(0, -14px, 0) rotate(1.2deg); }
+    }
     .highlight {
       color: var(--accent);
       font-weight: bold;
+    }
+    .menu-shell {
+      background: rgba(255, 250, 244, .94);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.08);
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+    .menu-intro {
+      background: var(--text);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .menu-intro h2 {
+      margin: 0;
+      font-size: 1.55rem;
+    }
+    .menu-intro p {
+      margin: .65rem auto 0;
+      max-width: 720px;
+      color: rgba(255,255,255,.86);
+    }
+    .menu-content {
+      padding: 1.2rem;
+    }
+    .menu-category {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .menu-category:first-child { padding-top: 0; }
+    .menu-category:last-child { border-bottom: 0; }
+    .menu-category h3 {
+      margin: 0 0 .7rem;
+      color: var(--accent);
+    }
+    .selectable-menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: .65rem;
+    }
+    .selectable-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .65rem;
+      min-height: 48px;
+      padding: .72rem .85rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .selectable-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-2);
+      box-shadow: 0 8px 18px rgba(43,33,24,.1);
+    }
+    .selectable-item input {
+      width: 18px;
+      height: 18px;
+      margin-top: .15rem;
+      accent-color: var(--accent);
+      flex: 0 0 auto;
+    }
+    .selectable-item span {
+      display: block;
+      line-height: 1.35;
+    }
+    .selectable-item:has(input:checked) {
+      background: var(--selected);
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px rgba(139,46,30,.2);
+    }
+    .order-bar {
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: rgba(255, 250, 244, .95);
+      border-top: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .order-count {
+      margin: 0;
+      color: #6c5b4d;
+      font-weight: 700;
+    }
+    .whatsapp-btn {
+      margin: 0;
+      white-space: nowrap;
     }
     footer {
       text-align: center;
       padding: 2rem 1rem 3rem;
       color: #6c5b4d;
     }
+    .footer-logo {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto .65rem;
+    }
+    @media (max-width: 640px) {
+      .floating-emoji {
+        font-size: 1.7rem;
+        opacity: .48;
+      }
+      .floating-emoji:nth-child(2),
+      .floating-emoji:nth-child(6) {
+        display: none;
+      }
+      .order-bar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+      .whatsapp-btn { text-align: center; }
+      .philosophy-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Salumeria</h1>
-    <p>Tradizione, gusto e selezione artigianale. Un sito vetrina elegante per raccontare prodotti, storia e qualità.</p>
-    <a class="btn" href="#prodotti">Scopri i prodotti</a>
-  </header>
+  <main class="menu-backdrop">
+    <span class="floating-emoji" aria-hidden="true">&#129385;</span>
+    <span class="floating-emoji" aria-hidden="true">&#129472;</span>
+    <span class="floating-emoji" aria-hidden="true">&#127860;</span>
+    <span class="floating-emoji" aria-hidden="true">&#127819;</span>
+    <span class="floating-emoji" aria-hidden="true">&#127863;</span>
+    <span class="floating-emoji" aria-hidden="true">&#127829;</span>
+
+    <section id="menu">
+      <div class="menu-shell">
+        <div class="menu-intro">
+          <h2>&#10024; Oggi e domani carne di maiale &#128055; &#10024;</h2>
+          <p>Allevato senza antibiotici e nel rispetto del naturale ciclo vitale, come si faceva una volta &#10084;&#65039;</p>
+        </div>
+
+      <div class="menu-content">
+        <div class="menu-category">
+          <h3>&#127860; Il nostro men&ugrave; gourmet</h3>
+          <div class="selectable-menu">
+            <label class="selectable-item"><input type="checkbox" value="Farfalle ai funghi porcini" /><span>&#127812; Farfalle ai funghi porcini</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Penne allo scarpariello con provolone del Monaco" /><span>&#129472; Penne allo scarpariello con provolone del Monaco</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Penne al forno golose" /><span>&#127837; Penne al forno golose</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Insalata di riso" /><span>&#127834; Insalata di riso</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Cuscus" /><span>&#127806; Cuscus</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Straccetti di vitellino" /><span>&#129385; Straccetti di vitellino</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Salsicce alla piastra" /><span>&#127789; Salsicce alla piastra</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Gatto di patate" /><span>&#129364; Gatt&ograve; di patate</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Parmigiana di zucchine" /><span>&#129362; Parmigiana di zucchine</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Frittata di patate" /><span>&#127859; Frittata di patate</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Ciambottina" /><span>&#127814; Ciambottina</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Friggitelli" /><span>&#127798;&#65039; Friggitelli</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Zucchine alla scapece" /><span>&#129362; Zucchine alla scapece</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Milza ricetta tradizionale" /><span>&#127830; Milza ricetta tradizionale</span></label>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3>&#128293; Dal forno di Matera</h3>
+          <div class="selectable-menu">
+            <label class="selectable-item"><input type="checkbox" value="Pizza in teglia con lievito madre" /><span>&#127829; Pizza in teglia con lievito madre</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Pane ai cereali con noci" /><span>&#127806; Pane ai cereali con noci</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Pane lievitato 48 ore, spaccato e cotto due volte nel forno di creta" /><span>&#129366; Pane lievitato 48 ore, spaccato e cotto due volte nel forno di creta: super croccante e super digeribile!</span></label>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3>&#129472; Novit&agrave;</h3>
+          <div class="selectable-menu">
+            <label class="selectable-item"><input type="checkbox" value="Il Caciocchiato di Ariano Irpino" /><span>Il Caciocchiato di Ariano Irpino: un vero tesoro caseario del Sud</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Formaggi di capra" /><span>&#128016; Formaggi di capra</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Formaggi di pecora" /><span>&#128017; Formaggi di pecora</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Formaggi di latte d'asina" /><span>&#129371; Formaggi di latte d&rsquo;asina</span></label>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3>&#127863; Le nostre produzioni</h3>
+          <div class="selectable-menu">
+            <label class="selectable-item"><input type="checkbox" value="Vino di Gragnano dolce e frizzante" /><span>&#127870; Vino di Gragnano, dolce e frizzante &#10024;</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Aglianico 100% BIO" /><span>&#127863; Aglianico 100% BIO</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Nero di Troia 100% BIO" /><span>&#127863; Nero di Troia 100% BIO</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Passate di pomodoro San Marzano" /><span>&#127813; Passate di pomodoro San Marzano</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Olio extravergine d'oliva BIO" /><span>&#129746; Olio extravergine d&rsquo;oliva BIO</span></label>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3>&#129370; Le nostre uova</h3>
+          <div class="selectable-menu">
+            <label class="selectable-item"><input type="checkbox" value="Uova allevate a terra" /><span>&#129370; Uova allevate a terra</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Galline felici" /><span>&#128020; Galline felici &#128515;</span></label>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3>&#127819; Novit&agrave; liquori artigianali</h3>
+          <div class="selectable-menu">
+            <label class="selectable-item"><input type="checkbox" value="Limoncello con limoni della Costiera" /><span>&#127819; Limoncello con limoni della Costiera</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Crema al limone di Ravello" /><span>&#127848; Crema al limone di Ravello</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Crema di melone Cantalupo" /><span>&#127816; Crema di melone Cantalupo</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Crema al pistacchio di Bronte" /><span>&#128154; Crema al pistacchio di Bronte</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Liquore al caffe Arabica" /><span>&#9749; Liquore al caff&egrave; Arabica</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Crema di banane" /><span>&#127820; Crema di banane</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Crema al cioccolato fondente" /><span>&#127851; Crema al cioccolato fondente</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Crema al cocco" /><span>&#129381; Crema al cocco</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-bar">
+        <p class="order-count" id="orderCount">Seleziona gli articoli da inviare su WhatsApp.</p>
+        <a class="btn whatsapp-btn" id="whatsappLink" href="https://wa.me/393298727541?text=Ciao%2C%20vorrei%20ordinare%20dal%20menu%20Salumeria%20Maiorino." target="_blank" rel="noopener">Invia su WhatsApp</a>
+      </div>
+    </div>
+    </section>
+  </main>
 
   <section>
-    <h2>La nostra filosofia</h2>
-    <p>
-      Ispirato al sito di riferimento, questo progetto propone una presenza web pulita e premium,
-      pensata per valorizzare <span class="highlight">salumi, formaggi, specialità locali</span> e servizio al cliente.
-    </p>
+    <div class="philosophy-wrap">
+      <div class="philosophy-copy">
+        <h2>&#10084;&#65039; La nostra filosofia</h2>
+        <p>
+          La Salumeria dal 2016 &egrave; gestita con passione da noi che abbiamo trasformato il nostro amore per la gastronomia in un'attivit&agrave; di successo. Accogliamo ogni cliente con un sorriso caloroso e consigli esperti. Cerchiamo di creare un'atmosfera familiare che rende ogni visita un'esperienza piacevole. La dedizione alla qualit&agrave; e al servizio clienti si riflette in ogni aspetto della salumeria, dalla selezione dei prodotti alla cura nel presentarli.
+        </p>
+      </div>
+      <img class="floating-photo" src="assets/salumeria-filosofia.jpeg" alt="I gestori della Salumeria Maiorino" />
+    </div>
   </section>
 
   <section id="prodotti">
-    <h2>In evidenza</h2>
+    <h2>&#127869;&#65039; In evidenza</h2>
     <div class="grid">
-      <div class="card">
-        <h3>Selezione di salumi</h3>
-        <p>Prosciutti, salami e specialità regionali scelti con cura.</p>
+      <div class="card product-card">
+        <h3>&#129385; Selezione di salumi</h3>
+        <p>Prosciutti, salami e specialit&agrave; regionali scelti con cura.</p>
       </div>
-      <div class="card">
-        <h3>Formaggi artigianali</h3>
+      <div class="card product-card">
+        <h3>&#129472; Formaggi artigianali</h3>
         <p>Una collezione di formaggi italiani da abbinare e degustare.</p>
       </div>
-      <div class="card">
-        <h3>Cesti e confezioni</h3>
+      <div class="card product-card">
+        <h3>&#127873; Cesti e confezioni</h3>
         <p>Idee regalo eleganti per occasioni speciali e aziende.</p>
       </div>
-      <div class="card">
-        <h3>Ordini personalizzati</h3>
+      <div class="card product-card">
+        <h3>&#128221; Ordini personalizzati</h3>
         <p>Esperienza su misura per eventi, aperitivi e forniture.</p>
       </div>
     </div>
   </section>
 
-  <section>
-    <h2>Contatti</h2>
-    <p>Personalizza qui indirizzo, telefono, orari e link social della tua salumeria.</p>
-  </section>
-
   <footer>
-    <p>Progetto iniziale creato per Salumeria.</p>
+    <img class="footer-logo" src="assets/salumeria-logo.png" alt="Salumeria Maiorino" />
+    <p>Salumeria Maiorino &middot; Prodotti selezionati, preparazioni fresche e ordini via WhatsApp.</p>
+    <p>Cookie policy: questo sito non usa cookie di profilazione. Possono essere presenti cookie tecnici necessari al corretto funzionamento dei servizi collegati.</p>
   </footer>
+
+  <script>
+    const phoneNumber = '393298727541';
+    const checkboxes = document.querySelectorAll('.selectable-item input');
+    const whatsappLink = document.getElementById('whatsappLink');
+    const orderCount = document.getElementById('orderCount');
+
+    function updateWhatsAppLink() {
+      const selected = Array.from(checkboxes)
+        .filter((input) => input.checked)
+        .map((input) => input.value);
+      const message = selected.length
+        ? `Ciao Salumeria Maiorino, vorrei ordinare:\n- ${selected.join('\n- ')}`
+        : 'Ciao Salumeria Maiorino, vorrei ordinare dal menu.';
+
+      whatsappLink.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      orderCount.textContent = selected.length
+        ? `${selected.length} articoli selezionati.`
+        : 'Seleziona gli articoli da inviare su WhatsApp.';
+    }
+
+    checkboxes.forEach((input) => input.addEventListener('change', updateWhatsAppLink));
+    updateWhatsAppLink();
+
+    document.querySelectorAll('.product-card').forEach((card) => {
+      card.addEventListener('mousemove', (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateY = ((x - centerX) / centerX) * 4;
+        const rotateX = ((centerY - y) / centerY) * 4;
+
+        card.style.setProperty('--x', `${x}px`);
+        card.style.setProperty('--y', `${y}px`);
+        card.style.setProperty('--rx', `${rotateX}deg`);
+        card.style.setProperty('--ry', `${rotateY}deg`);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+        card.style.setProperty('--x', '50%');
+        card.style.setProperty('--y', '50%');
+      });
+    });
+
+    const menuBackdrop = document.querySelector('.menu-backdrop');
+    const floatingEmojis = document.querySelectorAll('.floating-emoji');
+
+    menuBackdrop.addEventListener('mousemove', (event) => {
+      floatingEmojis.forEach((emoji) => {
+        const rect = emoji.getBoundingClientRect();
+        const emojiX = rect.left + rect.width / 2;
+        const emojiY = rect.top + rect.height / 2;
+        const dx = emojiX - event.clientX;
+        const dy = emojiY - event.clientY;
+        const distance = Math.max(Math.hypot(dx, dy), 1);
+        const influence = Math.max(0, 180 - distance) / 180;
+        const push = influence * 34;
+
+        emoji.style.setProperty('--mx', `${(dx / distance) * push}px`);
+        emoji.style.setProperty('--my', `${(dy / distance) * push}px`);
+      });
+    });
+
+    menuBackdrop.addEventListener('mouseleave', () => {
+      floatingEmojis.forEach((emoji) => {
+        emoji.style.setProperty('--mx', '0px');
+        emoji.style.setProperty('--my', '0px');
+      });
+    });
+  </script>
 </body>
 </html>
