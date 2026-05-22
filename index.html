@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Salumeria</title>
+  <style>
+    :root {
+      --bg: #f7f1e8;
+      --text: #2b2118;
+      --accent: #8b2e1e;
+      --accent-2: #c89b5e;
+      --card: #fffaf4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      padding: 4rem 1.5rem;
+      text-align: center;
+      background: linear-gradient(rgba(43,33,24,.55), rgba(43,33,24,.55)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=80') center/cover;
+      color: white;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 3rem;
+    }
+    header p {
+      max-width: 700px;
+      margin: 1rem auto 0;
+      font-size: 1.1rem;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: .9rem 1.4rem;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: bold;
+    }
+    section {
+      padding: 3rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+    .card {
+      background: var(--card);
+      padding: 1.2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
+    .highlight {
+      color: var(--accent);
+      font-weight: bold;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      color: #6c5b4d;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Salumeria</h1>
+    <p>Tradizione, gusto e selezione artigianale. Un sito vetrina elegante per raccontare prodotti, storia e qualità.</p>
+    <a class="btn" href="#prodotti">Scopri i prodotti</a>
+  </header>
+
+  <section>
+    <h2>La nostra filosofia</h2>
+    <p>
+      Ispirato al sito di riferimento, questo progetto propone una presenza web pulita e premium,
+      pensata per valorizzare <span class="highlight">salumi, formaggi, specialità locali</span> e servizio al cliente.
+    </p>
+  </section>
+
+  <section id="prodotti">
+    <h2>In evidenza</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Selezione di salumi</h3>
+        <p>Prosciutti, salami e specialità regionali scelti con cura.</p>
+      </div>
+      <div class="card">
+        <h3>Formaggi artigianali</h3>
+        <p>Una collezione di formaggi italiani da abbinare e degustare.</p>
+      </div>
+      <div class="card">
+        <h3>Cesti e confezioni</h3>
+        <p>Idee regalo eleganti per occasioni speciali e aziende.</p>
+      </div>
+      <div class="card">
+        <h3>Ordini personalizzati</h3>
+        <p>Esperienza su misura per eventi, aperitivi e forniture.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Contatti</h2>
+    <p>Personalizza qui indirizzo, telefono, orari e link social della tua salumeria.</p>
+  </section>
+
+  <footer>
+    <p>Progetto iniziale creato per Salumeria.</p>
+  </footer>
+</body>
+</html>
