@@ -166,6 +166,47 @@
       overflow: hidden;
       backdrop-filter: blur(8px);
     }
+    .top-menu-scroll {
+      overflow: hidden;
+      background: var(--accent);
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,.22);
+      white-space: nowrap;
+    }
+    .top-menu-track {
+      display: flex;
+      width: max-content;
+      animation: scrollMenu 68s linear infinite;
+    }
+    .top-menu-list {
+      display: flex;
+      align-items: center;
+      gap: 1.15rem;
+      padding: .72rem 1.15rem;
+      list-style: none;
+      margin: 0;
+      font-weight: 700;
+    }
+    .top-menu-list li {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+    }
+    .top-menu-list li::after {
+      content: "\2022";
+      margin-left: .8rem;
+      color: rgba(255,255,255,.58);
+    }
+    @keyframes scrollMenu {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .top-menu-track {
+        animation: none;
+        overflow-x: auto;
+      }
+    }
     .menu-intro {
       background: var(--text);
       color: white;
@@ -296,44 +337,101 @@
 
     <section id="menu">
       <div class="menu-shell">
+        <div class="top-menu-scroll" aria-label="Men&ugrave; completo a scorrimento">
+          <div class="top-menu-track">
+            <ul class="top-menu-list">
+              <li>&#127837; Frittata di pasta con Mortadella Bologna IGP</li>
+              <li>&#127837; Pasta al forno con salame</li>
+              <li>&#127812; Risotto ai funghi porcini</li>
+              <li>&#127834; Insalata di riso</li>
+              <li>&#127806; Cuscus</li>
+              <li>&#129367; Insalata con fagioli rossi</li>
+              <li>&#127830; Straccetti di vitellino</li>
+              <li>&#127831; Pollo rosolato al forno</li>
+              <li>&#129388; Scarola</li>
+              <li>&#127814; Melanzane a funghetti</li>
+              <li>&#127830; Milza ricetta tradizionale</li>
+              <li>&#127829; Pizza in teglia con lievito madre</li>
+              <li>&#127806; Pane ai cereali con noci</li>
+              <li>&#129366; Pane lievitato 48 ore</li>
+              <li>&#128003; Formaggio fresco estivo di bufala</li>
+              <li>Il Caciocchiato di Ariano Irpino</li>
+              <li>&#128016; Formaggi di capra</li>
+              <li>&#128017; Formaggi di pecora</li>
+              <li>&#129371; Formaggi di latte d&rsquo;asina</li>
+              <li>&#127870; Vino di Gragnano</li>
+              <li>&#127863; Aglianico 100% BIO</li>
+              <li>&#127863; Nero di Troia 100% BIO</li>
+              <li>&#127813; Passate di pomodoro San Marzano</li>
+              <li>&#129746; Olio extravergine d&rsquo;oliva BIO</li>
+              <li>&#129370; Uova allevate a terra</li>
+              <li>&#128020; Galline felici</li>
+              <li>&#127819; Limoncello con limoni della Costiera</li>
+              <li>&#127848; Crema al limone di Ravello</li>
+              <li>&#127816; Crema di melone Cantalupo</li>
+              <li>&#128154; Crema al pistacchio di Bronte</li>
+              <li>&#9749; Liquore al caff&egrave; Arabica</li>
+              <li>&#127820; Crema di banane</li>
+              <li>&#127851; Crema al cioccolato fondente</li>
+              <li>&#129381; Crema al cocco</li>
+            </ul>
+            <ul class="top-menu-list" aria-hidden="true">
+              <li>&#127837; Frittata di pasta con Mortadella Bologna IGP</li>
+              <li>&#127837; Pasta al forno con salame</li>
+              <li>&#127812; Risotto ai funghi porcini</li>
+              <li>&#127834; Insalata di riso</li>
+              <li>&#127806; Cuscus</li>
+              <li>&#129367; Insalata con fagioli rossi</li>
+              <li>&#127830; Straccetti di vitellino</li>
+              <li>&#127831; Pollo rosolato al forno</li>
+              <li>&#129388; Scarola</li>
+              <li>&#127814; Melanzane a funghetti</li>
+              <li>&#127830; Milza ricetta tradizionale</li>
+              <li>&#127829; Pizza in teglia con lievito madre</li>
+              <li>&#127806; Pane ai cereali con noci</li>
+              <li>&#129366; Pane lievitato 48 ore</li>
+              <li>&#128003; Formaggio fresco estivo di bufala</li>
+              <li>Il Caciocchiato di Ariano Irpino</li>
+              <li>&#128016; Formaggi di capra</li>
+              <li>&#128017; Formaggi di pecora</li>
+              <li>&#129371; Formaggi di latte d&rsquo;asina</li>
+              <li>&#127870; Vino di Gragnano</li>
+              <li>&#127863; Aglianico 100% BIO</li>
+              <li>&#127863; Nero di Troia 100% BIO</li>
+              <li>&#127813; Passate di pomodoro San Marzano</li>
+              <li>&#129746; Olio extravergine d&rsquo;oliva BIO</li>
+              <li>&#129370; Uova allevate a terra</li>
+              <li>&#128020; Galline felici</li>
+              <li>&#127819; Limoncello con limoni della Costiera</li>
+              <li>&#127848; Crema al limone di Ravello</li>
+              <li>&#127816; Crema di melone Cantalupo</li>
+              <li>&#128154; Crema al pistacchio di Bronte</li>
+              <li>&#9749; Liquore al caff&egrave; Arabica</li>
+              <li>&#127820; Crema di banane</li>
+              <li>&#127851; Crema al cioccolato fondente</li>
+              <li>&#129381; Crema al cocco</li>
+            </ul>
+          </div>
+        </div>
         <div class="menu-intro">
-          <h2>&#10024; Dolci di oggi &#10024;</h2>
-          <p>Pasticciotti leccesi, specialit&agrave; fresche e le novit&agrave; del giorno da ordinare su WhatsApp.</p>
+          <h2>&#10024; Men&ugrave; del giorno &#10024;</h2>
+          <p>Specialit&agrave; fresche e novit&agrave; del giorno da ordinare su WhatsApp.</p>
         </div>
 
       <div class="menu-content">
         <div class="menu-category">
-          <h3>&#129360; Pasticciotti leccesi</h3>
-          <div class="selectable-menu">
-            <label class="selectable-item"><input type="checkbox" value="Pasticciotto crema e amarena" /><span>&#127826; Crema e amarena</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Pasticciotto crema e cioccolato" /><span>&#127851; Crema e cioccolato</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Pasticciotto crema al limoncello" /><span>&#127819; Crema al limoncello</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Milza ricetta tradizionale" /><span>&#129385; Milza ricetta tradizionale</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Crocche artigianali con formaggio fresco estivo di bufala" /><span>&#129364; Crocch&egrave; artigianali con formaggio fresco estivo di bufala &#128003;</span></label>
-          </div>
-        </div>
-
-        <div class="menu-category">
-          <h3>&#10024; Oggi carne di maiale &#128055; &#10024;</h3>
-          <p>Allevato senza antibiotici e nel rispetto del naturale ciclo vitale, come si faceva una volta &#10084;&#65039;</p>
-        </div>
-
-        <div class="menu-category">
           <h3>&#127860; Il nostro men&ugrave; gourmet</h3>
           <div class="selectable-menu">
-            <label class="selectable-item"><input type="checkbox" value="Fusilli al pesto genovese" /><span>&#127807; Fusilli al pesto genovese</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Penne tonno e pomodorini" /><span>&#128031; Penne tonno e pomodorini</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Farro all'insalata" /><span>&#127806; Farro all&rsquo;insalata</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Frittata di pasta con Mortadella Bologna IGP" /><span>&#127837; Frittata di pasta con Mortadella Bologna IGP</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Pasta al forno con salame" /><span>&#127837; Pasta al forno con salame</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Risotto ai funghi porcini" /><span>&#127812; Risotto ai funghi porcini</span></label>
             <label class="selectable-item"><input type="checkbox" value="Insalata di riso" /><span>&#127834; Insalata di riso</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Cuscus tonno e pomodorini" /><span>&#127806; Cuscus tonno e pomodorini</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Scaloppine di pollo al limone" /><span>&#127819; Scaloppine di pollo al limone</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Scaloppine di pollo ai funghi porcini" /><span>&#127812; Scaloppine di pollo ai funghi porcini</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Sfoglia di mozzarella ripiena con crudo, pomodori e insalata" /><span>&#129472; Sfoglia di mozzarella ripiena con crudo, pomodori e insalata</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Salsicce alla piastra" /><span>&#127789; Salsicce alla piastra</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Gatto di patate" /><span>&#129364; Gatt&ograve; di patate</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Patate ripiene" /><span>&#129364; Patate ripiene</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Melanzane grigliate" /><span>&#127814; Melanzane grigliate</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Friggitelli" /><span>&#127798;&#65039; Friggitelli</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Cuscus" /><span>&#127806; Cuscus</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Insalata con fagioli rossi" /><span>&#129367; Insalata con fagioli rossi</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Straccetti di vitellino" /><span>&#127830; Straccetti di vitellino</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Pollo rosolato al forno" /><span>&#127831; Pollo rosolato al forno</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Scarola" /><span>&#129388; Scarola</span></label>
+            <label class="selectable-item"><input type="checkbox" value="Melanzane a funghetti" /><span>&#127814; Melanzane a funghetti</span></label>
             <label class="selectable-item"><input type="checkbox" value="Milza ricetta tradizionale" /><span>&#127830; Milza ricetta tradizionale</span></label>
           </div>
         </div>
