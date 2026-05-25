@@ -192,6 +192,13 @@
       align-items: center;
       gap: .35rem;
     }
+    .top-menu-list a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .top-menu-list a:hover {
+      text-decoration: underline;
+    }
     .top-menu-list li::after {
       content: "\2022";
       margin-left: .8rem;
@@ -273,6 +280,18 @@
       border-color: var(--accent);
       box-shadow: inset 0 0 0 1px rgba(139,46,30,.2);
     }
+    .menu-detail-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: .55rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .menu-detail-link:hover {
+      text-decoration: underline;
+    }
     .order-bar {
       position: sticky;
       bottom: 0;
@@ -353,7 +372,7 @@
               <li>&#127830; Milza ricetta tradizionale</li>
               <li>&#127829; Pizza in teglia con lievito madre</li>
               <li>&#127806; Pane ai cereali con noci</li>
-              <li>&#129366; Pane lievitato 48 ore</li>
+              <li><a href="pane-lievitato-48-ore.html">&#129366; Pane lievitato 48 ore</a></li>
               <li>&#128003; Formaggio fresco estivo di bufala</li>
               <li>Il Caciocchiato di Ariano Irpino</li>
               <li>&#128016; Formaggi di capra</li>
@@ -389,7 +408,7 @@
               <li>&#127830; Milza ricetta tradizionale</li>
               <li>&#127829; Pizza in teglia con lievito madre</li>
               <li>&#127806; Pane ai cereali con noci</li>
-              <li>&#129366; Pane lievitato 48 ore</li>
+              <li><a href="pane-lievitato-48-ore.html">&#129366; Pane lievitato 48 ore</a></li>
               <li>&#128003; Formaggio fresco estivo di bufala</li>
               <li>Il Caciocchiato di Ariano Irpino</li>
               <li>&#128016; Formaggi di capra</li>
@@ -441,7 +460,10 @@
           <div class="selectable-menu">
             <label class="selectable-item"><input type="checkbox" value="Pizza in teglia con lievito madre" /><span>&#127829; Pizza in teglia con lievito madre</span></label>
             <label class="selectable-item"><input type="checkbox" value="Pane ai cereali con noci" /><span>&#127806; Pane ai cereali con noci</span></label>
-            <label class="selectable-item"><input type="checkbox" value="Pane lievitato 48 ore, spaccato e cotto due volte nel forno di creta" /><span>&#129366; Pane lievitato 48 ore, spaccato e cotto due volte nel forno di creta: super croccante e super digeribile!</span></label>
+            <div>
+              <label class="selectable-item"><input type="checkbox" value="Pane lievitato 48 ore, spaccato e cotto due volte nel forno di creta" /><span>&#129366; Pane lievitato 48 ore, spaccato e cotto due volte nel forno di creta: super croccante e super digeribile!</span></label>
+              <a class="menu-detail-link" href="pane-lievitato-48-ore.html">Scopri il pane</a>
+            </div>
           </div>
         </div>
 
