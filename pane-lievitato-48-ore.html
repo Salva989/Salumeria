@@ -7,12 +7,13 @@
   <meta name="description" content="Pane lievitato 48 ore, spaccato e cotto due volte nel forno di creta: super croccante e super digeribile." />
   <style>
     :root {
-      --bg: #f7f1e8;
+      --bg: #ffffff;
       --text: #2b2118;
       --accent: #8b2e1e;
       --accent-2: #c89b5e;
-      --card: #fffaf4;
-      --line: rgba(43, 33, 24, .15);
+      --soft: #fff7ed;
+      --green: #426b45;
+      --line: rgba(43, 33, 24, .16);
     }
     * { box-sizing: border-box; }
     body {
@@ -23,60 +24,101 @@
       line-height: 1.6;
     }
     .page {
+      position: relative;
       min-height: 100vh;
+      overflow: hidden;
       background:
-        linear-gradient(rgba(43,33,24,.24), rgba(43,33,24,.48)),
-        url("assets/salumeria-filosofia.jpeg") center / cover fixed;
+        linear-gradient(180deg, #ffffff 0%, #ffffff 58%, #fff7ed 100%);
       padding: 1rem;
     }
+    .floating-bread {
+      position: fixed;
+      z-index: 0;
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      opacity: .16;
+      pointer-events: none;
+      animation: floatBread 9s ease-in-out infinite;
+    }
+    .floating-bread:nth-child(1) { left: 4%; top: 12%; animation-delay: 0s; }
+    .floating-bread:nth-child(2) { right: 7%; top: 18%; animation-delay: -3s; }
+    .floating-bread:nth-child(3) { left: 10%; bottom: 12%; animation-delay: -5s; }
+    .floating-bread:nth-child(4) { right: 12%; bottom: 18%; animation-delay: -1.5s; }
+    @keyframes floatBread {
+      0%, 100% { transform: translate3d(0, 0, 0) rotate(-7deg); }
+      50% { transform: translate3d(0, -24px, 0) rotate(8deg); }
+    }
     .shell {
-      max-width: 980px;
+      position: relative;
+      z-index: 1;
+      max-width: 1080px;
       margin: 0 auto;
       padding: clamp(1rem, 4vw, 2rem) 0 3rem;
     }
     .back-link {
       display: inline-flex;
-      color: white;
+      color: var(--accent);
       font-weight: 700;
       text-decoration: none;
       margin-bottom: 1rem;
-      text-shadow: 0 2px 10px rgba(0,0,0,.35);
     }
     .back-link:hover { text-decoration: underline; }
     .hero {
-      min-height: 62vh;
+      min-height: 58vh;
       display: grid;
-      align-items: end;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 360px);
+      align-items: center;
+      gap: clamp(1.2rem, 4vw, 3rem);
       padding: clamp(1.2rem, 5vw, 3rem);
-      border: 1px solid rgba(255,255,255,.34);
-      background: linear-gradient(180deg, rgba(255,250,244,.18), rgba(43,33,24,.68));
-      box-shadow: 0 22px 48px rgba(0,0,0,.2);
+      border: 1px solid var(--line);
+      background: white;
+      box-shadow: 0 18px 42px rgba(43,33,24,.1);
+    }
+    .eyebrow {
+      margin: 0 0 .65rem;
+      color: var(--green);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: .82rem;
     }
     .hero h1 {
-      max-width: 780px;
+      max-width: 760px;
       margin: 0;
-      color: white;
-      font-size: clamp(2rem, 6vw, 4.6rem);
+      color: var(--text);
+      font-size: clamp(2.1rem, 6vw, 4.8rem);
       line-height: .98;
-      text-shadow: 0 4px 18px rgba(0,0,0,.34);
     }
     .hero p {
-      max-width: 680px;
+      max-width: 720px;
       margin: 1rem 0 0;
-      color: rgba(255,255,255,.92);
-      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: #5f5045;
+      font-size: clamp(1rem, 2vw, 1.22rem);
+    }
+    .bread-emoji {
+      display: grid;
+      place-items: center;
+      min-height: 280px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 38%, rgba(200,155,94,.24), transparent 34%),
+        var(--soft);
+      font-size: clamp(8rem, 18vw, 13rem);
+      animation: breadPulse 3.2s ease-in-out infinite;
+    }
+    @keyframes breadPulse {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
     }
     .content {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(240px, .8fr);
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr);
       gap: 1rem;
       margin-top: 1rem;
     }
     .panel {
-      background: rgba(255, 250, 244, .96);
+      background: white;
       border: 1px solid var(--line);
       padding: 1.2rem;
-      box-shadow: 0 12px 28px rgba(43,33,24,.12);
+      box-shadow: 0 12px 28px rgba(43,33,24,.08);
     }
     .panel h2,
     .panel h3 {
@@ -86,18 +128,21 @@
     .panel p {
       margin: 0 0 .85rem;
     }
-    .details {
+    .details,
+    .steps {
       display: grid;
       gap: .7rem;
       margin: 0;
       padding: 0;
       list-style: none;
     }
-    .details li {
+    .details li,
+    .steps li {
       padding-bottom: .7rem;
       border-bottom: 1px solid var(--line);
     }
-    .details li:last-child {
+    .details li:last-child,
+    .steps li:last-child {
       border-bottom: 0;
       padding-bottom: 0;
     }
@@ -114,34 +159,103 @@
       font-weight: 700;
     }
     .btn:hover { background: #6f2116; }
-    @media (max-width: 760px) {
+    .pairing-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-top: .75rem;
+    }
+    .pairing-button {
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--text);
+      border-radius: 999px;
+      padding: .65rem .85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .pairing-button:hover,
+    .pairing-button.active {
+      border-color: var(--accent);
+      background: var(--soft);
+      color: var(--accent);
+    }
+    .pairing-result {
+      min-height: 82px;
+      margin-top: .85rem;
+      padding: .9rem;
+      border-left: 4px solid var(--accent-2);
+      background: var(--soft);
+      color: #4f4035;
+      font-weight: 700;
+    }
+    .crunch-control {
+      display: grid;
+      gap: .65rem;
+      margin-top: .65rem;
+    }
+    .crunch-control input {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+    .crunch-note {
+      min-height: 54px;
+      padding: .8rem;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      font-weight: 700;
+    }
+    @media (max-width: 780px) {
+      .hero,
       .content { grid-template-columns: 1fr; }
-      .hero { min-height: 56vh; }
+      .hero { min-height: auto; }
+      .bread-emoji { min-height: 220px; }
+      .floating-bread { opacity: .1; }
     }
   </style>
 </head>
 <body>
   <main class="page">
+    <span class="floating-bread" aria-hidden="true">&#129366;</span>
+    <span class="floating-bread" aria-hidden="true">&#129366;</span>
+    <span class="floating-bread" aria-hidden="true">&#129366;</span>
+    <span class="floating-bread" aria-hidden="true">&#129366;</span>
+
     <div class="shell">
       <a class="back-link" href="index.html">&#8592; Torna al men&ugrave;</a>
 
       <section class="hero">
         <div>
+          <p class="eyebrow">Dal forno di Matera</p>
           <h1>Pane lievitato 48 ore</h1>
-          <p>Spaccato e cotto due volte nel forno di creta: super croccante fuori, leggero e digeribile dentro.</p>
+          <p>Spaccato e cotto due volte nel forno di creta: una crosta sonora e croccante, una mollica pi&ugrave; leggera, e quel profumo caldo che chiama subito salumi, formaggi e tavola apparecchiata.</p>
         </div>
+        <div class="bread-emoji" aria-hidden="true">&#129366;</div>
       </section>
 
       <section class="content">
         <div class="panel">
-          <h2>Dal forno di Matera</h2>
+          <h2>Perch&eacute; &egrave; speciale</h2>
           <p>
-            Una preparazione lenta, pensata per dare al pane una struttura fragrante e una crosta intensa.
-            La doppia cottura nel forno di creta valorizza la parte croccante senza appesantire il morso.
+            La lunga lievitazione lascia al pane il tempo di maturare lentamente. Questo rende il morso pi&ugrave; equilibrato:
+            croccante quando lo spezzi, profumato quando arriva in tavola, piacevole anche con condimenti importanti.
           </p>
           <p>
-            Perfetto da portare a tavola, da farcire con salumi e formaggi selezionati, o da accompagnare alle specialit&agrave; del giorno.
+            Dopo la prima cottura viene spaccato e passato di nuovo nel forno di creta. La seconda cottura asciuga la parte esterna,
+            concentra il sapore e crea una crosta pi&ugrave; decisa, perfetta per raccogliere olio, sughi, formaggi freschi o salumi stagionati.
           </p>
+          <p>
+            &Egrave; un pane da condividere: buono da solo, ancora meglio al centro della tavola, spezzato a mano e servito con qualcosa di semplice e fatto bene.
+          </p>
+
+          <h3>Abbinalo con</h3>
+          <div class="pairing-buttons" aria-label="Scegli un abbinamento">
+            <button class="pairing-button active" type="button" data-pairing="salumi">Salumi</button>
+            <button class="pairing-button" type="button" data-pairing="formaggi">Formaggi</button>
+            <button class="pairing-button" type="button" data-pairing="olio">Olio BIO</button>
+          </div>
+          <p class="pairing-result" id="pairingResult">Con salame, prosciutto o mortadella: la crosta regge bene il taglio e la mollica resta leggera.</p>
+
           <a class="btn" href="https://wa.me/393298727541?text=Ciao%20Salumeria%20Maiorino%2C%20vorrei%20ordinare%20Pane%20lievitato%2048%20ore%2C%20spaccato%20e%20cotto%20due%20volte%20nel%20forno%20di%20creta." target="_blank" rel="noopener">Ordina su WhatsApp</a>
         </div>
 
@@ -150,12 +264,55 @@
           <ul class="details">
             <li><strong>Tempo:</strong> 48 ore di lievitazione</li>
             <li><strong>Cottura:</strong> doppia, nel forno di creta</li>
-            <li><strong>Texture:</strong> super croccante</li>
-            <li><strong>Risultato:</strong> super digeribile</li>
+            <li><strong>Texture:</strong> crosta super croccante</li>
+            <li><strong>Risultato:</strong> mollica leggera e digeribile</li>
           </ul>
+
+          <h3>Livello croccantezza</h3>
+          <div class="crunch-control">
+            <input id="crunchRange" type="range" min="1" max="3" value="3" aria-label="Livello croccantezza" />
+            <div class="crunch-note" id="crunchNote">Croccantezza alta: ideale per bruschette, scarpetta e taglieri.</div>
+          </div>
         </aside>
+      </section>
+
+      <section class="panel" style="margin-top: 1rem;">
+        <h2>Come nasce</h2>
+        <ul class="steps">
+          <li><strong>1. Lievitazione lenta:</strong> 48 ore per sviluppare profumo, struttura e leggerezza.</li>
+          <li><strong>2. Prima cottura:</strong> il pane prende corpo e colore nel calore del forno.</li>
+          <li><strong>3. Spaccatura:</strong> viene aperto per prepararlo alla seconda passata.</li>
+          <li><strong>4. Seconda cottura:</strong> il forno di creta asciuga e rende la crosta pi&ugrave; fragrante.</li>
+        </ul>
       </section>
     </div>
   </main>
+
+  <script>
+    const pairingText = {
+      salumi: 'Con salame, prosciutto o mortadella: la crosta regge bene il taglio e la mollica resta leggera.',
+      formaggi: 'Con formaggi freschi o stagionati: il pane aggiunge croccantezza senza coprire il sapore.',
+      olio: 'Con un filo di olio extravergine BIO: semplice, profumato, perfetto ancora tiepido.'
+    };
+    const pairingResult = document.getElementById('pairingResult');
+    document.querySelectorAll('.pairing-button').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.pairing-button').forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        pairingResult.textContent = pairingText[button.dataset.pairing];
+      });
+    });
+
+    const crunchNotes = {
+      1: 'Croccantezza delicata: ottimo da accompagnare a formaggi morbidi.',
+      2: 'Croccantezza media: perfetto per taglieri e tavola di tutti i giorni.',
+      3: 'Croccantezza alta: ideale per bruschette, scarpetta e taglieri.'
+    };
+    const crunchRange = document.getElementById('crunchRange');
+    const crunchNote = document.getElementById('crunchNote');
+    crunchRange.addEventListener('input', () => {
+      crunchNote.textContent = crunchNotes[crunchRange.value];
+    });
+  </script>
 </body>
 </html>
