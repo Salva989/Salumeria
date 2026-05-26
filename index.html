@@ -158,6 +158,128 @@
       color: var(--accent);
       font-weight: bold;
     }
+    .showcase {
+      max-width: 1180px;
+    }
+    .showcase-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+      gap: 1rem;
+      align-items: stretch;
+    }
+    .slideshow {
+      position: relative;
+      min-height: clamp(280px, 46vw, 520px);
+      overflow: hidden;
+      border-radius: 18px;
+      background: #1f1711;
+      box-shadow: 0 20px 42px rgba(43,33,24,.18);
+      isolation: isolate;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(1.04) translateX(18px);
+      transition: opacity .7s ease, transform .8s ease;
+    }
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+      z-index: 1;
+    }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(31,23,17,.08), rgba(31,23,17,.55));
+      pointer-events: none;
+    }
+    .slide-caption {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 2;
+      color: white;
+      text-shadow: 0 2px 12px rgba(0,0,0,.55);
+    }
+    .slide-caption h3 {
+      margin: 0;
+      font-size: clamp(1.15rem, 3vw, 2rem);
+    }
+    .slide-caption p {
+      margin: .35rem 0 0;
+      max-width: 620px;
+      color: rgba(255,255,255,.88);
+    }
+    .slideshow-controls {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 3;
+      display: flex;
+      gap: .5rem;
+    }
+    .slide-btn {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 50%;
+      background: rgba(31,23,17,.62);
+      color: white;
+      font-size: 1.35rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    .slide-btn:hover {
+      background: rgba(139,46,30,.88);
+    }
+    .slide-dots {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      z-index: 3;
+      display: flex;
+      gap: .45rem;
+    }
+    .slide-dot {
+      width: 36px;
+      height: 5px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,.45);
+      cursor: pointer;
+    }
+    .slide-dot.active {
+      background: white;
+    }
+    .showcase-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,250,244,.8);
+      box-shadow: 0 12px 28px rgba(43,33,24,.08);
+    }
+    .showcase-copy h2 {
+      margin: 0;
+      color: var(--accent);
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      line-height: 1.05;
+    }
+    .showcase-copy p {
+      margin: .85rem 0 0;
+      color: #6c5b4d;
+    }
     .menu-shell {
       background: rgba(255, 250, 244, .94);
       border: 1px solid var(--line);
@@ -341,6 +463,12 @@
       .whatsapp-btn { text-align: center; }
       .philosophy-wrap {
         grid-template-columns: 1fr;
+      }
+      .showcase-shell {
+        grid-template-columns: 1fr;
+      }
+      .showcase-copy {
+        order: -1;
       }
     }
   </style>
@@ -532,6 +660,57 @@
     </section>
   </main>
 
+  <section class="showcase" aria-label="Galleria Salumeria Maiorino">
+    <div class="showcase-shell">
+      <div class="slideshow" id="shopSlideshow">
+        <div class="slide active">
+          <img src="assets/slideshow-banco-gastronomia.jpeg" alt="Banco gastronomia con preparazioni fresche" />
+          <div class="slide-caption">
+            <h3>Banco fresco ogni giorno</h3>
+            <p>Piatti pronti, verdure, uova, mozzarella e specialit&agrave; da scegliere al momento.</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="assets/slideshow-salumi-formaggi.jpeg" alt="Salumi e formaggi selezionati" />
+          <div class="slide-caption">
+            <h3>Salumi e formaggi selezionati</h3>
+            <p>Tagli importanti, sapori decisi e prodotti scelti con cura per il banco.</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="assets/slideshow-menu-pronto.jpeg" alt="Preparazioni del menu del giorno viste dall'alto" />
+          <div class="slide-caption">
+            <h3>Il men&ugrave; che cambia</h3>
+            <p>Paste fredde, cous cous, contorni e caprese pronti per pranzo, cena o asporto.</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="assets/slideshow-produzioni.jpeg" alt="Produzioni, vini, formaggi e salumi sul banco" />
+          <div class="slide-caption">
+            <h3>Produzioni e specialit&agrave;</h3>
+            <p>Vini, conserve, formaggi, salumi e piccoli tesori gastronomici da scoprire.</p>
+          </div>
+        </div>
+        <div class="slide-dots" aria-label="Seleziona immagine">
+          <button class="slide-dot active" type="button" aria-label="Vai alla foto 1"></button>
+          <button class="slide-dot" type="button" aria-label="Vai alla foto 2"></button>
+          <button class="slide-dot" type="button" aria-label="Vai alla foto 3"></button>
+          <button class="slide-dot" type="button" aria-label="Vai alla foto 4"></button>
+        </div>
+        <div class="slideshow-controls">
+          <button class="slide-btn" type="button" id="prevSlide" aria-label="Foto precedente">&#8249;</button>
+          <button class="slide-btn" type="button" id="nextSlide" aria-label="Foto successiva">&#8250;</button>
+        </div>
+      </div>
+
+      <div class="showcase-copy">
+        <h2>&#10024; Dentro la Salumeria</h2>
+        <p>Uno sguardo veloce al banco, alle preparazioni e alle specialit&agrave; che raccontano il lavoro di ogni giorno.</p>
+        <p>La galleria scorre da sola, ma puoi fermarti sulle foto con i comandi.</p>
+      </div>
+    </div>
+  </section>
+
   <section>
     <div class="philosophy-wrap">
       <div class="philosophy-copy">
@@ -594,6 +773,47 @@
 
     checkboxes.forEach((input) => input.addEventListener('change', updateWhatsAppLink));
     updateWhatsAppLink();
+
+    const slideshow = document.getElementById('shopSlideshow');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dots = Array.from(document.querySelectorAll('.slide-dot'));
+    const prevSlide = document.getElementById('prevSlide');
+    const nextSlide = document.getElementById('nextSlide');
+    let activeSlide = 0;
+    let slideTimer;
+
+    function showSlide(index) {
+      activeSlide = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => slide.classList.toggle('active', slideIndex === activeSlide));
+      dots.forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === activeSlide));
+    }
+
+    function startSlideshow() {
+      slideTimer = window.setInterval(() => showSlide(activeSlide + 1), 4200);
+    }
+
+    function restartSlideshow() {
+      window.clearInterval(slideTimer);
+      startSlideshow();
+    }
+
+    prevSlide.addEventListener('click', () => {
+      showSlide(activeSlide - 1);
+      restartSlideshow();
+    });
+    nextSlide.addEventListener('click', () => {
+      showSlide(activeSlide + 1);
+      restartSlideshow();
+    });
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        showSlide(index);
+        restartSlideshow();
+      });
+    });
+    slideshow.addEventListener('mouseenter', () => window.clearInterval(slideTimer));
+    slideshow.addEventListener('mouseleave', startSlideshow);
+    startSlideshow();
 
     document.querySelectorAll('.product-card').forEach((card) => {
       card.addEventListener('mousemove', (event) => {
