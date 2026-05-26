@@ -1,0 +1,53 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: github-pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Publish main to gh-pages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          publish_dir="$(mktemp -d)"
+          rsync -a --delete \
+            --exclude ".git" \
+            --exclude ".github" \
+            ./ "$publish_dir"/
+
+          git fetch origin gh-pages
+          git switch gh-pages
+
+          find . -mindepth 1 -maxdepth 1 ! -name ".git" -exec rm -rf {} +
+          rsync -a "$publish_dir"/ ./
+          touch .nojekyll
+
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No Pages changes to publish."
+            exit 0
+          fi
+
+          git add -A
+          git commit -m "Deploy main to GitHub Pages"
+          git push origin gh-pages
